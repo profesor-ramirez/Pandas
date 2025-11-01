@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Interactivo de Pandas</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f7f6;
+            color: #333;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        h1, h2, h3 {
+            color: #005a9c;
+            border-bottom: 2px solid #0078d4;
+            padding-bottom: 5px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+        }
+        h2 {
+            font-size: 2em;
+            margin-top: 40px;
+        }
+        h3 {
+            font-size: 1.5em;
+            border-bottom: 1px solid #ccc;
+            color: #0078d4;
+        }
+        pre {
+            background-color: #2d2d2d;
+            color: #f1f1f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.95em;
+        }
+        code {
+            font-family: "Courier New", Courier, monospace;
+        }
+        .output {
+            background-color: #eef;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: "Courier New", Courier, monospace;
+            white-space: pre-wrap; /* Mantiene el formato del output */
+        }
+        .note {
+            background-color: #fffbe6;
+            border-left: 5px solid #ffeb3b;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        nav {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: space-around;
+        }
+        nav li a {
+            text-decoration: none;
+            color: #005a9c;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+        nav li a:hover {
+            background-color: #eef;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Guía Interactiva de Pandas</h1>
+    <p>Una introducción a la manipulación y análisis de datos con Python.</p>
+
+    <div class="note">
+        <strong>Nota importante:</strong> Esta es una guía estática. Pandas es una biblioteca de Python, por lo que para ejecutar este código, necesitas un entorno de Python como <a href="https://colab.research.google.com/" target="_blank">Google Colab</a> o <a href="https://jupyter.org/install" target="_blank">Jupyter Notebook</a>.
+    </div>
+
+    <nav>
+        <ul>
+            <li><a href="#intro">1. Introducción</a></li>
+            <li><a href="#creacion">2. Creación y Carga</a></li>
+            <li><a href="#seleccion">3. Selección y Limpieza</a></li>
+            <li><a href="#agrupacion">4. Agrupación y Unión</a></li>
+        </ul>
+    </nav>
+
+    <h2 id="intro">1. Introducción a Pandas y Estructuras Principales</h2>
+    <p>Pandas es la herramienta más popular en Python para el análisis de datos. Introduce dos estructuras de datos principales que facilitan mucho el trabajo: <strong>Series</strong> y <strong>DataFrames</strong>.</p>
+    
+    
+
+    <h3>Series</h3>
+    <p>Una <strong>Serie</strong> es un arreglo unidimensional (como una columna de una hoja de cálculo) capaz de almacenar cualquier tipo de dato (enteros, strings, flotantes, objetos de Python, etc.). Tiene un <strong>índice</strong> que etiqueta cada elemento.</p>
+    <pre><code># Primero, importamos la librería
+import pandas as pd
+import numpy as np # Numpy se usa a menudo con Pandas
+
+# Creación de una Serie desde una lista
+s = pd.Series([1, 3, 5, np.nan, 6, 8])
+
+print(s)</code></pre>
+    <p><strong>Salida esperada:</strong></p>
+    <pre class="output">
+0    1.0
+1    3.0
+2    5.0
+3    NaN
+4    6.0
+5    8.0
+dtype: float64
+</pre>
+
+    <h3>DataFrame</h3>
+    <p>Un <strong>DataFrame</strong> es una estructura de datos tabular bidimensional (como una hoja de cálculo completa o una tabla de SQL) con columnas que pueden ser de diferentes tipos. Es la estructura de Pandas más utilizada.</p>
+    
+    <pre><code># Creación de un DataFrame desde un diccionario
+data = {
+    'Nombre': ['Ana', 'Luis', 'Carlos', 'Marta'],
+    'Edad': [28, 34, 29, 42],
+    'Ciudad': ['Madrid', 'Barcelona', 'Madrid', 'Valencia']
+}
+df = pd.DataFrame(data)
+
+print(df)</code></pre>
+    <p><strong>Salida esperada:</strong></p>
+    <pre class="output">
+   Nombre  Edad     Ciudad
+0     Ana    28     Madrid
+1    Luis    34  Barcelona
+2  Carlos    29     Madrid
+3   Marta    42   Valencia
+</pre>
+
+    <h2 id="creacion">2. Creación, Carga y Exportación de Datos</h2>
+    <p>Puedes crear DataFrames de muchas formas, pero lo más común es cargarlos desde archivos externos como CSV, Excel o bases de datos.</p>
+
+    <h3>Cargar Datos (desde CSV)</h3>
+    <p>Imaginemos que tenemos un archivo llamado <code>estudiantes.csv</code>.</p>
+    <pre><code># Esta línea crearía un error aquí, es solo un ejemplo
+# Para que funcione, necesitarías un archivo 'estudiantes.csv'
+# df_estudiantes = pd.read_csv('estudiantes.csv')
+
+# Usaremos el DataFrame anterior para los ejemplos
+print(df.head(2)) # .head() muestra las primeras N filas (por defecto 5)
+</code></pre>
+    <p><strong>Salida esperada (de las primeras 2 filas):</strong></p>
+    <pre class="output">
+  Nombre  Edad     Ciudad
+0    Ana    28     Madrid
+1   Luis    34  Barcelona
+</pre>
+
+    <h3>Exportar Datos (a CSV)</h3>
+    <p>Puedes guardar tu DataFrame modificado fácilmente.</p>
+    <pre><code># Guardar el DataFrame en un nuevo archivo CSV
+# index=False evita que se guarde el índice de pandas (0, 1, 2...)
+df.to_csv('estudiantes_exportados.csv', index=False)
+
+# También puedes exportar a otros formatos
+# df.to_excel('estudiantes.xlsx', sheet_name='Hoja1')
+# df.to_json('estudiantes.json')
+</code></pre>
+    <p>Esto creará un archivo <code>estudiantes_exportados.csv</code> en tu directorio de trabajo.</p>
+
+    <h2 id="seleccion">3. Selección, Filtrado y Limpieza de Datos</h2>
+    
+    <h3>Selección de Columnas</h3>
+    <pre><code># Seleccionar una sola columna (devuelve una Serie)
+nombres = df['Nombre']
+print(nombres)
+
+# Seleccionar múltiples columnas (devuelve un DataFrame)
+info_personal = df[['Nombre', 'Edad']]
+print(info_personal)
+</code></pre>
+    <p><strong>Salida (múltiples columnas):</strong></p>
+    <pre class="output">
+   Nombre  Edad
+0     Ana    28
+1    Luis    34
+2  Carlos    29
+3   Marta    42
+</pre>
+
+    <h3>Filtrado de Filas (Basado en condiciones)</h3>
+    <p>Esto se conoce como "indexación booleana".</p>
+    <pre><code># Filtrar personas mayores de 30 años
+mayores_de_30 = df[df['Edad'] > 30]
+print(mayores_de_30)
+
+# Filtrar personas que viven en Madrid
+de_madrid = df[df['Ciudad'] == 'Madrid']
+print(de_madrid)
+</code></pre>
+    <p><strong>Salida (mayores de 30):</strong></p>
+    <pre class="output">
+  Nombre  Edad     Ciudad
+1   Luis    34  Barcelona
+3  Marta    42   Valencia
+</pre>
+
+    <h3>Limpieza de Datos (Manejo de Nulos)</h3>
+    <p>Los datos del mundo real rara vez están completos. <code>np.nan</code> representa datos faltantes.</p>
+    <pre><code># Creemos un DataFrame con datos faltantes
+data_con_nulos = {
+    'A': [1, 2, np.nan, 4],
+    'B': [5, np.nan, np.nan, 8],
+    'C': [9, 10, 11, 12]
+}
+df_nulos = pd.DataFrame(data_con_nulos)
+print("Original:")
+print(df_nulos)
+
+# Opción 1: Eliminar filas con cualquier valor nulo
+df_sin_nulos_filas = df_nulos.dropna()
+print("\nDespués de dropna():")
+print(df_sin_nulos_filas)
+
+# Opción 2: Rellenar valores nulos (p.ej., con 0 o la media)
+df_relleno = df_nulos.fillna(value=0)
+print("\nDespués de fillna(0):")
+print(df_relleno)
+</code></pre>
+    <p><strong>Salida (rellenando con 0):</strong></p>
+    <pre class="output">
+Después de fillna(0):
+     A    B   C
+0  1.0  5.0   9
+1  2.0  0.0  10
+2  0.0  0.0  11
+3  4.0  8.0  12
+</pre>
+
+    <h2 id="agrupacion">4. Agrupamiento, Unión y Resumen de Información</h2>
+    
+    <h3>Agrupamiento (Group By)</h3>
+    <p>La operación "Group By" es fundamental para el análisis. Implica uno o más de los siguientes pasos:
+    <ul>
+        <li><strong>Dividir</strong> (Splitting): los datos en grupos basados en algún criterio.</li>
+        <li><strong>Aplicar</strong> (Applying): una función a cada grupo independientemente.</li>
+        <li><strong>Combinar</strong> (Combining): los resultados en una estructura de datos.</li>
+    </ul>
+    </p>
+    <pre><code># Usando el primer DataFrame 'df'
+# Agrupemos por 'Ciudad' y contemos cuántas personas hay en cada una
+conteo_ciudad = df.groupby('Ciudad').size()
+print("Conteo por ciudad:")
+print(conteo_ciudad)
+
+# Agrupemos por 'Ciudad' y calculemos la edad media
+edad_media_ciudad = df.groupby('Ciudad')['Edad'].mean()
+print("\nEdad media por ciudad:")
+print(edad_media_ciudad)
+</code></pre>
+    <p><strong>Salida (Edad media):</strong></p>
+    <pre class="output">
+Edad media por ciudad:
+Ciudad
+Barcelona    34.0
+Madrid       28.5
+Valencia     42.0
+Name: Edad, dtype: float64
+</pre>
+
+    <h3>Unión (Merge/Join)</h3>
+    <p>Similar a los JOINs de SQL, Pandas puede combinar DataFrames.</p>
+    <pre><code># Creemos un segundo DataFrame
+data_profesion = {
+    'Nombre': ['Ana', 'Luis', 'Carlos', 'Marta'],
+    'Profesion': ['Ingeniera', 'Arquitecto', 'Doctor', 'Diseñadora']
+}
+df_profesion = pd.DataFrame(data_profesion)
+
+# Unimos los dos DataFrames usando 'Nombre' como clave
+df_completo = pd.merge(df, df_profesion, on='Nombre')
+print(df_completo)
+</code></pre>
+    <p><strong>Salida esperada:</strong></p>
+    <pre class="output">
+   Nombre  Edad     Ciudad    Profesion
+0     Ana    28     Madrid    Ingeniera
+1    Luis    34  Barcelona   Arquitecto
+2  Carlos    29     Madrid       Doctor
+3   Marta    42   Valencia   Diseñadora
+</pre>
+
+    <h3>Resumen de Información</h3>
+    <p><code>.describe()</code> es una función increíblemente útil para obtener un resumen estadístico rápido de las columnas numéricas.</p>
+    <pre><code># Obtener estadísticas descriptivas del DataFrame completo
+print(df_completo.describe())
+</code></pre>
+    <p><strong>Salida esperada:</strong></p>
+    <pre class="output">
+             Edad
+count    4.000000
+mean    33.250000
+std      6.396614
+min     28.000000
+25%     28.750000
+50%     31.500000
+75%     36.000000
+max     42.000000
+</pre>
+
+</body>
+</html>
